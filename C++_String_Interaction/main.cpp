@@ -1,6 +1,7 @@
 #include <iostream>  // Include the input/output stream library
 #include <string>
 #include <algorithm>
+#include <cctype>
 // DEFINING STRINGS
 std::string user_prompt;
 std::string user_prompt_for_how_to_manipulate_string;
@@ -34,7 +35,7 @@ void phrase_uppercaser_loop() {
         std::cout << "Enter a phrase to turn Uppercase: ";  // Clear prompt message
         std::getline(std::cin, phrase);  // Get the phrase from the user
         std::transform(phrase.begin(), phrase.end(), phrase.begin(), ::toupper);;  // Uppercase the phrase
-        std::cout << "Reversed phrase: " << phrase << std::endl;  // Display reversed string clearly
+        std::cout << "Uppercased Phrase: " << phrase << std::endl;  // Display reversed string clearly
 
        
         std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
@@ -45,9 +46,62 @@ void phrase_uppercaser_loop() {
     }
 }
 
+void phrase_lowercaser_loop() {
+    std::string phrase;  // Create a string variable to store the phrase
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO) ";
+    std::getline(std::cin, user_prompt);
+    while(user_prompt=="1"){
+        std::cout << "Enter a phrase to Lowercase: ";  // Clear prompt message
+        std::getline(std::cin, phrase);  // Get the phrase from the user
+        std::transform(phrase.begin(), phrase.end(), phrase.begin(), ::tolower);;  // Uppercase the phrase
+        std::cout << "Lowercased Phrase: " << phrase << std::endl;  // Display reversed string clearly
+
+       
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
+        std::getline(std::cin, user_prompt);
+        if (user_prompt == "2"){
+            return;
+        }
+    }
+}
+
+void phrase_titlecase_loop() {
+    std::string phrase;
+    std::string user_prompt;  // Declare user_prompt here
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO): ";
+    std::getline(std::cin, user_prompt);
+
+    while (user_prompt == "1") {
+        std::cout << "Enter a phrase to turn Titlecase: ";
+        std::getline(std::cin, phrase);
+
+        // Convert the phrase to title case
+        bool new_word = true;
+        for (char &c : phrase) {
+            if (new_word && std::isalpha(c)) {
+                c = std::toupper(c);
+                new_word = false;
+            } else if (std::isspace(c)) {
+                new_word = true;
+            } else {
+                c = std::tolower(c);
+            }
+        }
+
+        std::cout << "Titlecased phrase: " << phrase << std::endl;
+
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO): ";
+        std::getline(std::cin, user_prompt);
+
+        if (user_prompt == "2") {
+            return;  // Exit the function if the user chooses to stop
+        }
+    }
+}
+
 void main_loop(){
     while(true) {
-        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase";
+        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase 3- Lowercase 4- Titlecase";
         std::getline(std::cin,user_prompt_for_how_to_manipulate_string);
     
         if (user_prompt_for_how_to_manipulate_string == "1") {
@@ -56,8 +110,14 @@ void main_loop(){
         else if (user_prompt_for_how_to_manipulate_string == "2"){
             phrase_uppercaser_loop();
         }
+        else if (user_prompt_for_how_to_manipulate_string == "3"){
+            phrase_lowercaser_loop();
+        }
+        else if (user_prompt_for_how_to_manipulate_string == "4"){
+            phrase_titlecase_loop();
+        }
         else{
-            std::cout << "Invalid input, please try again";
+            std::cout << "Invalid input, please try again ";
         }
     }
 }    
@@ -70,6 +130,11 @@ int main() {
 }
 
 
+
+
+
+
+// Okay, as I see it we will start with 9 string manipulation functions for just our first version
 
 // How can we get this loop to work lets think about it. We need main loop that picks how they want to manipulate the string and once they are done that
 // they can break out of the loop to that main loop
