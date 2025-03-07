@@ -2,6 +2,7 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include <random>
 // DEFINING STRINGS
 std::string user_prompt;
 std::string user_prompt_for_how_to_manipulate_string;
@@ -99,9 +100,59 @@ void phrase_titlecase_loop() {
     }
 }
 
+void phrase_remove_occurrences_of_a_substring() {
+    std::string phrase;  // Create a string variable to store the phrase
+    std::string substring;  // Create a string variable to store the substring
+
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO) ";
+    std::getline(std::cin, user_prompt);
+    while(user_prompt=="1"){
+        std::cout << "Enter a string to remove from the text you will paste in: ";  // Clear prompt message
+        std::getline(std::cin, substring);  // Get the phrase from the user
+        std::cout << "Enter the phrase you are removing the substring from: ";
+        std::getline(std::cin, phrase);  // Get the phrase from the user
+        phrase.erase(phrase.find(substring), substring.length());
+        
+        std::cout << "Here is your new string or whatever: " << phrase << std::endl;  // Display reversed string clearly
+
+       
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
+        std::getline(std::cin, user_prompt);
+        if (user_prompt == "2"){
+            return;
+        }
+    }
+}
+
+
+
+void phrase_shuffle_loop() {
+    std::string phrase;  // Create a string variable to store the phrase
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO) ";
+    std::getline(std::cin, user_prompt);
+    while(user_prompt=="1"){
+        std::cout << "Enter a phrase to Shuffle: ";  // Clear prompt message
+        std::getline(std::cin, phrase);  // Get the phrase from the user
+
+
+        std::random_device rd; // Initialize a random number generator
+        std::mt19937 g(rd());  // Create a Mersenne Twister random number generator
+        std::shuffle(phrase.begin(), phrase.end(), g); // Shuffle the string
+
+        std::cout << "Shuffled String: " << phrase << std::endl;  // Display reversed string clearly
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
+        std::getline(std::cin, user_prompt);
+        if (user_prompt == "2"){
+            return;
+        }
+    }
+}
+
+// Next add the substring thingy but you can replace the substring with a text, along with that add a vowel and consonant remover
+
 void main_loop(){
     while(true) {
-        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase 3- Lowercase 4- Titlecase";
+        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase 3- Lowercase 4- Titlecase 5 -Remove Substring 6- Shuffle String ";
         std::getline(std::cin,user_prompt_for_how_to_manipulate_string);
     
         if (user_prompt_for_how_to_manipulate_string == "1") {
@@ -116,8 +167,14 @@ void main_loop(){
         else if (user_prompt_for_how_to_manipulate_string == "4"){
             phrase_titlecase_loop();
         }
+        else if (user_prompt_for_how_to_manipulate_string == "5"){
+            phrase_remove_occurrences_of_a_substring();
+        }
+        else if(user_prompt_for_how_to_manipulate_string == "6"){
+            phrase_shuffle_loop();
+        }
         else{
-            std::cout << "Invalid input, please try again ";
+            break;
         }
     }
 }    
