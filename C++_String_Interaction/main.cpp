@@ -148,11 +148,60 @@ void phrase_shuffle_loop() {
     }
 }
 
-// Next add the substring thingy but you can replace the substring with a text, along with that add a vowel and consonant remover
+void phrase_replace_occurrences_of_a_substring() {
+    std::string phrase;  // Create a string variable to store the phrase
+    std::string substring_being_replaced;  // Create a string variable to store the substring
+    std::string substring_to_replace_with;
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO) ";
+    std::getline(std::cin, user_prompt);
+    while(user_prompt=="1"){
+        std::cout << "Enter the phrase you are doing this operation on ";
+        std::getline(std::cin, phrase);  // Get the phrase from the user
+
+        std::cout << "Enter a substring to replace: ";  // Clear prompt message
+        std::getline(std::cin, substring_being_replaced);  // Get the phrase from the user
+
+        std::cout << "Enter what you are REPLACING WITH!: ";  // Clear prompt message
+        std::getline(std::cin, substring_to_replace_with);  // Get the phrase from the user
+
+        phrase.replace(phrase.find(substring_being_replaced), substring_being_replaced.length(), substring_to_replace_with);
+        std::cout << "Here is your new string or whatever: " << phrase << std::endl;  // Display reversed string clearly
+
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
+        std::getline(std::cin, user_prompt);
+        if (user_prompt == "2"){
+            return;
+        }
+    }
+}
+
+void phrase_remove_spaces() {
+    std::string phrase;  // Create a string variable to store the phrase
+
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO) ";
+    std::getline(std::cin, user_prompt);
+    while(user_prompt=="1"){
+        std::cout << "Enter the phrase you are removing whitespace form: ";
+        std::getline(std::cin, phrase);  // Get the phrase from the user
+
+        phrase.erase(remove(phrase.begin(), phrase.end(), ' '), phrase.end());
+        
+        std::cout << "Here is your string (without whitespace): " << phrase << std::endl;  // Display string without space
+     
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
+        std::getline(std::cin, user_prompt);
+        if (user_prompt == "2"){
+            return;
+        }
+    }
+}
+
+
+// Next add the substring thingy but you can replace the substring with a text, add a space remover
 
 void main_loop(){
     while(true) {
-        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase 3- Lowercase 4- Titlecase 5 -Remove Substring 6- Shuffle String ";
+        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase 3- Lowercase 4- Titlecase 5 -Remove Substring 6- Shuffle String 7- Change Substring 8- Remove Whitespace ";
         std::getline(std::cin,user_prompt_for_how_to_manipulate_string);
     
         if (user_prompt_for_how_to_manipulate_string == "1") {
@@ -172,6 +221,12 @@ void main_loop(){
         }
         else if(user_prompt_for_how_to_manipulate_string == "6"){
             phrase_shuffle_loop();
+        }
+        else if(user_prompt_for_how_to_manipulate_string == "7"){
+            phrase_replace_occurrences_of_a_substring();
+        }
+        else if (user_prompt_for_how_to_manipulate_string == "8"){
+            phrase_remove_spaces();
         }
         else{
             break;
@@ -287,4 +342,4 @@ int main() {
 //     return 0;
 // }
 //  a funny thing happens where for some reason it prints my directory in code runner (reversed), maybe i found a glitch kek, 12/19/2024 using g++ and latest most updated
-// c++ related faggotry extensions and related
+// c++ related extensions and related
