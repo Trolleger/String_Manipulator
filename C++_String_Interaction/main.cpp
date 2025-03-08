@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <random>
+#include <cstring>
 // DEFINING STRINGS
 std::string user_prompt;
 std::string user_prompt_for_how_to_manipulate_string;
@@ -196,12 +197,33 @@ void phrase_remove_spaces() {
     }
 }
 
+void phrase_remove_vowels() {
+    std::string phrase;  // Create a string variable to store the phrase
 
-// Next add the substring thingy but you can replace the substring with a text, add a space remover
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO) ";
+    std::getline(std::cin, user_prompt);
+    while(user_prompt=="1"){
+        std::cout << "Enter the phrase you are removing vowels form: ";
+        std::getline(std::cin, phrase);  // Get the phrase from the user
+
+        phrase.erase(remove_if(phrase.begin(), phrase.end(), [](char c) { return strchr("aeiouAEIOU", c); }), phrase.end());
+        
+        std::cout << "Here is your string (without vowels): " << phrase << std::endl;  // Display string without space
+     
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
+        std::getline(std::cin, user_prompt);
+        if (user_prompt == "2"){
+            return;
+        }
+    }
+}
+
+
+// Next make code cleaner and put in things to prevent errors
 
 void main_loop(){
     while(true) {
-        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase 3- Lowercase 4- Titlecase 5 -Remove Substring 6- Shuffle String 7- Change Substring 8- Remove Whitespace ";
+        std::cout << "Pick how you would like to manipulate your string. 1- Reverse 2- Uppercase 3- Lowercase 4- Titlecase 5 -Remove Substring 6- Shuffle String 7- Change Substring 8- Remove Whitespace 9- Remove Vowels ";
         std::getline(std::cin,user_prompt_for_how_to_manipulate_string);
     
         if (user_prompt_for_how_to_manipulate_string == "1") {
@@ -227,6 +249,9 @@ void main_loop(){
         }
         else if (user_prompt_for_how_to_manipulate_string == "8"){
             phrase_remove_spaces();
+        }
+        else if (user_prompt_for_how_to_manipulate_string == "9"){
+            phrase_remove_vowels();
         }
         else{
             break;
