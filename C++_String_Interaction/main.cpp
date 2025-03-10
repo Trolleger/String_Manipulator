@@ -102,28 +102,35 @@ void phrase_titlecase_loop() {
 }
 
 void phrase_remove_occurrences_of_a_substring() {
-    std::string phrase;  // Create a string variable to store the phrase
-    std::string substring;  // Create a string variable to store the substring
+    std::string phrase, substring, user_prompt;
 
-    std::cout << "Would you like to Start? 1 (YES) or 2 (NO) ";
+    std::cout << "Would you like to Start? 1 (YES) or 2 (NO): ";
     std::getline(std::cin, user_prompt);
-    while(user_prompt=="1"){
-        std::cout << "Enter a string to remove from the text you will paste in: ";  // Clear prompt message
-        std::getline(std::cin, substring);  // Get the phrase from the user
+
+    while (user_prompt == "1") {
         std::cout << "Enter the phrase you are removing the substring from: ";
         std::getline(std::cin, phrase);  // Get the phrase from the user
-        phrase.erase(phrase.find(substring), substring.length());
-        
-        std::cout << "Here is your new string or whatever: " << phrase << std::endl;  // Display reversed string clearly
+        std::cout << "Enter the substring you are removing from the phrase: ";
+        std::getline(std::cin, substring);  // Get the substring from the user
 
-       
-        std::cout << "Would you like to continue? 1 (YES) or 2 (NO) ";
+        // Check if the substring is found and remove it
+        if (phrase.find(substring) != std::string::npos) {  // Substring found
+            phrase.erase(phrase.find(substring), substring.length());  // Erase the substring
+        } else {
+            std::cout << "Substring not found!" << std::endl;  // Substring not found error
+            return;  // Exit if substring is not found
+        }
+
+        std::cout << "Updated phrase: " << phrase << std::endl;  // Display updated phrase
+
+        std::cout << "Would you like to continue? 1 (YES) or 2 (NO): ";
         std::getline(std::cin, user_prompt);
-        if (user_prompt == "2"){
-            return;
+        if (user_prompt == "2") {
+            return;  // Exit if the user chooses "NO"
         }
     }
 }
+
 
 
 
@@ -164,6 +171,13 @@ void phrase_replace_occurrences_of_a_substring() {
 
         std::cout << "Enter what you are REPLACING WITH!: ";  // Clear prompt message
         std::getline(std::cin, substring_to_replace_with);  // Get the phrase from the user
+
+        if (phrase.find(substring_being_replaced) != std::string::npos) {  // Substring found
+            phrase.erase(phrase.find(substring_being_replaced), substring_being_replaced.length());  // Erase the substring
+        } else {
+            std::cout << "Substring not found!" << std::endl;  // Substring not found error
+            return;  // Exit if substring is not found
+        }
 
         phrase.replace(phrase.find(substring_being_replaced), substring_being_replaced.length(), substring_to_replace_with);
         std::cout << "Here is your new string or whatever: " << phrase << std::endl;  // Display reversed string clearly
