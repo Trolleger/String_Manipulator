@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build SFML Project",
+            "type": "shell",
+            "command": "g++",
+            "args": [
+                "-o", "${workspaceFolder}\\C++_String_Interaction\\main.exe",
+                "${workspaceFolder}\\C++_String_Interaction\\main.cpp",
+                "-I", "${workspaceFolder}\\SFML-3.0.0-windows-gcc-14.2.0-mingw-64-bit\\SFML-3.0.0\\include",
+                "-L", "${workspaceFolder}\\SFML-3.0.0-windows-gcc-14.2.0-mingw-64-bit\\SFML-3.0.0\\lib",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-system"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Compile and link SFML project"
+        }
+    ]
+}
