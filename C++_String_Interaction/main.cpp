@@ -8,36 +8,43 @@
 #include <SFML/Window.hpp>   // For window creation and input handling
 #include <SFML/System.hpp>   // For system utilities (time, threads, etc.)
 #include <SFML/Audio.hpp>    // For sound and music (only if needed)
-#include <SFML/Window/Event.hpp>
-#include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window.hpp>
 #include <SFML/Network.hpp> // For networking (only if needed)
+
 // DEFINING STRINGS
 std::string user_prompt;
 std::string user_prompt_for_how_to_manipulate_string;
 
 void open_screen()
 {
-    unsigned int width = 640;
-    unsigned int height = 360;
-    sf::RenderWindow *window = new sf::RenderWindow(sf::VideoMode({width, height}), "title");
-    while (window->isOpen())
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
+
+    sf::Font font("arial.ttf");
+    sf::Text text(font);
+    
+    // run the program as long as the window is open
+    while (window.isOpen())
     {
-        while (const std::optional event = window->pollEvent())
+        // check all the window's events that were triggered since the last iteration of the loop
+        while (const std::optional event = window.pollEvent())
         {
+            // Text entered event - MOVED INSIDE THE EVENT LOOP
+            if (const auto* textEntered = event->getIf<sf::Event::TextEntered>())
+            {
+                if (textEntered->unicode < 128)
+                     // add this above your loop
+                  
+                    text.setString(static_cast<char>(textEntered->unicode));
+                    
+            }
+            
+            // "close requested" event: we close the window
             if (event->is<sf::Event::Closed>())
-            {
-                window->close();
-            }
-            else if (const auto *keyPressed = event->getIf<sf::Event::KeyPressed>())
-            {
-                if (keyPressed->scancode == sf::Keyboard :: Scancode::Escape)
-                {
-                    window->close();
-                }
-            }
+                window.close();
         }
+        window.draw(text);  
+        window.display();
     }
-    delete window;
 }
 
 // FUNCTIONS
