@@ -15,38 +15,63 @@
 std::string user_prompt;
 std::string user_prompt_for_how_to_manipulate_string;
 
-void open_screen()
-{
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
-
-    sf::Font font("arial.ttf");
-    sf::Text text(font);
+void open_screen() {
+    sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({640, 360}), "title");
     
-    // run the program as long as the window is open
-    while (window.isOpen())
-    {
-        // check all the window's events that were triggered since the last iteration of the loop
-        while (const std::optional event = window.pollEvent())
-        {
-            // Text entered event - MOVED INSIDE THE EVENT LOOP
-            if (const auto* textEntered = event->getIf<sf::Event::TextEntered>())
-            {
-                if (textEntered->unicode < 128)
-                     // add this above your loop
-                  
-                    text.setString(static_cast<char>(textEntered->unicode));
-                    
-            }
-            
-            // "close requested" event: we close the window
-            if (event->is<sf::Event::Closed>())
-                window.close();
-        }
-        window.draw(text);  
-        window.display();
+    // Set up font and text - using the correct SFML 3 method
+    sf::Font font;
+    if (!font.openFromFile("arial.ttf")) {
+        // Handle font loading error
+        delete window;
+        return;
     }
+    
+    // Create text with SFML 3 syntax
+    sf::Text inputText(font);
+    inputText.setCharacterSize(24);
+    inputText.setFillColor(sf::Color::White);
+    inputText.setPosition({10.f, 10.f});
+    
+    std::string textInput = "";
+    
+    while (window->isOpen()) {
+        while (const std::optional<sf::Event> event = window->pollEvent()) {
+            if (event->is<sf::Event::Closed>()) {
+                window->close();
+            }
+            else if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
+                    window->close();
+                }
+                else if (keyPressed->scancode == sf::Keyboard::Scancode::Backspace && !textInput.empty()) {
+                    // Handle backspace
+                    textInput.pop_back();
+                }
+                else if (keyPressed->scancode == sf::Keyboard::Scancode::Enter) {
+                    // Handle enter/return key
+                    textInput += "\n";
+                }
+            }
+            else if (const auto* textEntered = event->getIf<sf::Event::TextEntered>()) {
+                // This event is triggered when a character is typed
+                // Filter out control characters
+                if (textEntered->unicode >= 32 && textEntered->unicode < 128) {
+                    textInput += static_cast<char>(textEntered->unicode);
+                }
+            }
+        }
+        
+        // Update the text
+        inputText.setString(textInput);
+        
+        // Rendering
+        window->clear();
+        window->draw(inputText);
+        window->display();
+    }
+    
+    delete window;
 }
-
 // FUNCTIONS
 void phrase_reverser_loop()
 {
